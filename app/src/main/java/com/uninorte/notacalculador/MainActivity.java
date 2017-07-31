@@ -41,16 +41,15 @@ public class MainActivity extends AppCompatActivity {
         ArrayList<EditText> lista = new ArrayList<EditText>();
         ArrayList<EditText> listToRemove = new ArrayList<EditText>();
         boolean notaCalculated = false;
-        EditText emptyNota;
 
         lista.add(edtNota1);
         lista.add(edtNota2);
         lista.add(edtNota3);
         lista.add(edtNota4);
 
-        for (int i=0; i < lista.size(); i++) {
+        for (int i=0; i < lista.size(); i++) { // for in loop cannot be used because of ConcurrentModificationException
             if (TextUtils.isEmpty(lista.get(i).getText())) {
-                emptyNota = lista.get(i);
+                EditText emptyNota = lista.get(i);
                 lista.remove(i);
                 double remainingSum = calculatSum(lista);
                 double expectedAverage = Math.ceil((remainingSum) / 3);
