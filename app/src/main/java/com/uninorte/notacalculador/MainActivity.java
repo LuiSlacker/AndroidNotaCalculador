@@ -1,12 +1,16 @@
 package com.uninorte.notacalculador;
 
+import android.support.v4.text.TextUtilsCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.graphics.drawable.DrawerArrowDrawable;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -33,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onClickCalcular(View view) {
+        if(checkForInvalidInput()) return;
         double nota1 = Double.parseDouble(edtNota1.getText().toString());
         double nota2 = Double.parseDouble(edtNota2.getText().toString());
         double nota3 = Double.parseDouble(edtNota3.getText().toString());
@@ -50,8 +55,25 @@ public class MainActivity extends AppCompatActivity {
         tvResultado.setText(String.valueOf(df.format(resultado)));
     }
 
+
     private double calculateMissingNota(double suma, double average) {
         return 4 * average - suma;
+    }
+
+    private boolean checkForInvalidInput() {
+        boolean isError = false;
+        ArrayList<EditText> lista = new ArrayList<EditText>();
+        lista.add(edtNota1);
+        lista.add(edtNota2);
+        lista.add(edtNota3);
+        lista.add(edtNota4);
+        for (EditText edit: lista) {
+            if(TextUtils.isEmpty(edit.getText())) {
+                edit.setError("Tiene que dar un valor!");
+                isError = true;
+            }
+        }
+        return isError;
     }
 
 }
