@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.graphics.drawable.DrawerArrowDrawable;
 import android.text.TextUtils;
+import android.view.TextureView;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -37,24 +38,34 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onClickCalcular(View view) {
-        if(checkForInvalidInput()) return;
-        double nota1 = Double.parseDouble(edtNota1.getText().toString());
-        double nota2 = Double.parseDouble(edtNota2.getText().toString());
-        double nota3 = Double.parseDouble(edtNota3.getText().toString());
-        double nota4 = Double.parseDouble(edtNota4.getText().toString());
-        double resultado;
+        ArrayList<EditText> lista = new ArrayList<EditText>();
+        ArrayList<EditText> listToRemove = new ArrayList<EditText>();
+        boolean notaCalculated = false;
+        EditText emptyNota;
 
-        if (nota4 == 0.0) {
-            double suma = nota1 + nota2 + nota3;
-            resultado = Math.ceil((suma) / 3);
-            double missingNota = calculateMissingNota(suma, resultado);
-            edtNota4.setText(String.valueOf(missingNota));
-        } else {
-            resultado = (nota1 + nota2 + nota3 + nota4) / 4;
+        lista.add(edtNota1);
+        lista.add(edtNota2);
+        lista.add(edtNota3);
+        lista.add(edtNota4);
+
+        for (int i=0; i < lista.size(); i++) {
+            if (TextUtils.isEmpty(lista.get(i).getText())) {
+                emptyNota = lista.get(i);
+                lista.remove(i);
+                double remainingSum = calculatSum(lista);
+                double expectedAverage = Math.ceil((remainingSum) / 3);
+                double missingNota = calculateMissingNota(remainingSum, expectedAverage);
+                emptyNota.setText(String.valueOf(missingNota));
+                notaCalculated = true;
+                tvResultado.setText(String.valueOf(df.format(expectedAverage)));
+            }
         }
-        tvResultado.setText(String.valueOf(df.format(resultado)));
-    }
 
+        if (!notaCalculated) {
+            double resultado = calculatSum(lista) / 4;
+            tvResultado.setText(String.valueOf(df.format(resultado)));
+        }
+    }
 
     /**
      * calculates the missing nota
@@ -67,23 +78,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * checks for invalid userInput
-     * @return boolean indicating whether invalid userInput has been found
+     * calculates the sum of a given Arraylist
      */
-    private boolean checkForInvalidInput() {
-        boolean isError = false;
-        ArrayList<EditText> lista = new ArrayList<EditText>();
-        lista.add(edtNota1);
-        lista.add(edtNota2);
-        lista.add(edtNota3);
-        lista.add(edtNota4);
-        for (EditText edit: lista) {
-            if(TextUtils.isEmpty(edit.getText())) {
-                edit.setError("Tiene que dar un valor!");
-                isError = true;
-            }
+    private double calculatSum(ArrayList<EditText> lista) {
+        double resultado = 0.0;
+        for (EditText edit : lista) {
+            resultado += Double.parseDouble(edit.getText().toString());
         }
-        return isError;
+        return resultado;
     }
 
 }
