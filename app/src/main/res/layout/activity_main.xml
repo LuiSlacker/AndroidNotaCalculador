@@ -10,16 +10,19 @@
 
     <Button
         android:id="@+id/btnCalc"
+        style="@style/Widget.AppCompat.Button.Colored"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Calcular"
-        android:onClick="onClickCalcular"
-        tools:layout_constraintBottom_creator="1"
+        android:layout_marginBottom="97dp"
         android:layout_marginStart="35dp"
+        android:background="@color/colorPrimaryDark"
+        android:onClick="onClickCalcular"
+        android:text="Calcular"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toRightOf="@+id/textView6"
+        tools:layout_constraintBottom_creator="1"
         tools:layout_constraintLeft_creator="1"
-        android:layout_marginBottom="99dp"
-        app:layout_constraintLeft_toRightOf="@+id/textView6" />
+        android:layout_marginLeft="73dp" />
 
     <EditText
         android:id="@+id/edtNota1"
@@ -89,7 +92,7 @@
         tools:layout_constraintBottom_creator="1"
         android:layout_marginEnd="50dp"
         app:layout_constraintRight_toRightOf="@+id/btnCalc"
-        android:layout_marginRight="50dp"
+        android:layout_marginRight="35dp"
         app:layout_constraintBottom_toTopOf="@+id/btnCalc"
         android:layout_marginBottom="26dp" />
 

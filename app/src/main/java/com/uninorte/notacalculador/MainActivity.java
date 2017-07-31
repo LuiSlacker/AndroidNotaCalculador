@@ -56,10 +56,20 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    /**
+     * calculates the missing nota
+     * @param suma the suma of the first three grades
+     * @param average the expected average
+     * @return the missing nota
+     */
     private double calculateMissingNota(double suma, double average) {
         return 4 * average - suma;
     }
 
+    /**
+     * checks for invalid userInput
+     * @return boolean indicating whether invalid userInput has been found
+     */
     private boolean checkForInvalidInput() {
         boolean isError = false;
         ArrayList<EditText> lista = new ArrayList<EditText>();
